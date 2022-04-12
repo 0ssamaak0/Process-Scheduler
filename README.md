@@ -17,7 +17,7 @@ The user is allowed -Through a GUI- to choose:
 - Time Slice (Round Robin)
 
 ## Screenshots
-![Screenshoot1][ScreenShot1.png](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot1.png)
+![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot1.png)
 
-![Screenshoot1][ScreenShot2.png](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot2.png)
+![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot2.png)
   
