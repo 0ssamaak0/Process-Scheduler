@@ -1,7 +1,7 @@
 # Process-Scheduler
 This Projcect is submitted for `CSE335s | Operating Systems` Course
 
-[Download from here](https://github.com/0ssamaak0/Process-Scheduler/blob/master/App.exe)
+[Download from here](https://github.com/0ssamaak0/Process-Scheduler/raw/master/App.exe)
 
 ## Supported Sceduling Algorithms
 - FCFS (First Come First Serve)
