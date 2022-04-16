@@ -1,11 +1,16 @@
 import copy
 
+""" if the first arrival time > 0, start from this time """
+
 
 def time_normalizer(processes):
     least = sorted(processes, key=lambda i: i["arrival_time_val"])[
         0]["arrival_time_val"]
     for i in range(len(processes)):
         processes[i]["arrival_time_val"] -= least
+
+
+""" Calculates the waiting time for each process, returns the average """
 
 
 def waiting_calc(gnatt, processes):

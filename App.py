@@ -1,23 +1,60 @@
 from tkinter import *
-from Shcedulers import *
+from tkinter import messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from random import random
+from datetime import datetime
+
+
+from Shcedulers import *
 
 # Main Window
 window = Tk()
 window.title("Process Scheduler")
 window.minsize(600, 350)
 
+# Saving Figure
+
+
+def savefig():
+    global figure
+    figure.savefig(f"Process Scheduler {datetime.now()}.png")
+
+
+def about():
+    messagebox.showinfo("About", "Github: 0ssamaak0")
+
+
+# Menu
+menubar = Menu(window)
+
+filemenu = Menu(menubar, tearoff=0)
+aboutmenu = Menu(menubar, tearoff=0)
+
+filemenu.add_command(label="Save", command=savefig)
+
+filemenu.add_separator()
+
+filemenu.add_command(label="Exit", command=window.quit)
+
+aboutmenu.add_command(label="About", command=about)
+
+menubar.add_cascade(label="File", menu=filemenu)
+menubar.add_cascade(label="About", menu=aboutmenu)
+window.config(menu=menubar)
+
+# Inputs Frame
 frame = Frame(window)
 frame.grid(column=2, rowspan=10, columnspan=10)
 
+# Plot Frame
 plot = Frame(window)
 plot.grid(row=30, columnspan=10)
 
-
+# Processes empty list (will be list of dictionaries)
 processes = []
 
+# Round Robin Time slice
 time_slice_flag = False
 time_slice = 0
 
@@ -26,7 +63,6 @@ nprocess_label = Label(window, text="Number of Processes")
 nprocess_label.grid(row=0, column=0)
 nprocess_entry = Entry(window, bd=5)
 nprocess_entry.grid(row=0, column=1)
-
 
 # Type of Scheduler
 type = IntVar()
@@ -57,10 +93,9 @@ type_radio_5.grid(row=6, column=0)
 
 
 # processes_filling function
-
-
 def processes_filling():
 
+    # Removing input entries when changing the Sheduler of number of processes
     for widget in frame.winfo_children():
         widget.destroy()
     global processes
@@ -95,7 +130,7 @@ def processes_filling():
             frame, width=5)
         processes[i]["arrival_time"].grid(row=i, column=7)
 
-        # If priority
+        # If priority set priority
         if(int(type.get()) == 3 or int(type.get()) == 4):
             Label(frame, text="Priority").grid(row=i, column=8)
             processes[i]["priority"] = Entry(
@@ -104,7 +139,7 @@ def processes_filling():
         else:
             processes[i]["priority"] = -1
 
-    # If RR set time_slice
+    # If RoundRobin set time_slice
     if(int(type.get()) == 5):
         global time_slice_flag
         time_slice_flag = True
@@ -119,6 +154,7 @@ def processes_filling():
 
 
 def scheduler():
+    # Removing the Previous Plot
     for widget in plot.winfo_children():
         widget.destroy()
     global processes
@@ -134,6 +170,7 @@ def scheduler():
         time_slice = int(time_slice_entry.get())
         print(time_slice)
 
+    # if the first arrival time > 0, start from this time
     time_normalizer(processes)
     if(int(type.get()) == 0):
         (gnatt, avg_wait) = FCFS(processes)
@@ -148,15 +185,20 @@ def scheduler():
     elif (int(type.get()) == 5):
         (gnatt, avg_wait) = RoundRobin(processes, time_slice)
 
+    # setting random color for each process
     colors = [(random(), random(), random())
               for process in range(len(gnatt))]
 
+    # Preparing the figure and the ax
+    global figure
     figure = plt.Figure(figsize=(6, 5), dpi=100)
     ax = figure.add_subplot(111)
 
+    # Adding the plot
     canvas = FigureCanvasTkAgg(figure, plot)
     canvas.get_tk_widget().grid(columnspan=10)
 
+    # Plotting the Gnatt Chart
     for process in gnatt:
         ax.broken_barh([(process["start"], [process["end"] - process["start"]])], (0.5, 10),
                        label=f"P{process['processs_no'],}", color=colors[process["processs_no"] - 1])
@@ -167,6 +209,10 @@ def scheduler():
         ax.set_xlim(-2, gnatt[-1]["end"] + 2)
         ax.text(x=gnatt[-1]["end"] / 4, y=15,
                 s=f"average waiting time = {round(avg_wait, 2)}ms")
+
+    xticks = [process["start"] for process in gnatt]
+    xticks.append(gnatt[-1]["end"])
+    ax.set_xticks(xticks)
 
 
 # Submit Type and num Button
