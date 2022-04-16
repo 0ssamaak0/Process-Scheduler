@@ -1,6 +1,8 @@
 # Process-Scheduler
 This Projcect is submitted for `CSE335s | Operating Systems` Course
 
+[Download from here]([link](https://github.com/0ssamaak0/Process-Scheduler/blob/master/App.exe))
+
 ## Supported Sceduling Algorithms
 - FCFS (First Come First Serve)
 - SJF (Shortest Job First) Preemptive 
