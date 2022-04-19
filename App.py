@@ -9,6 +9,7 @@ from datetime import datetime
 from Shcedulers import *
 
 # Main Window
+
 window = Tk()
 window.title("Process Scheduler")
 window.minsize(600, 350)
@@ -140,15 +141,17 @@ def processes_filling():
             processes[i]["priority"] = -1
 
     # If RoundRobin set time_slice
+    global time_slice_flag
     if(int(type.get()) == 5):
-        global time_slice_flag
         time_slice_flag = True
         Label(frame, text="Time Slice").grid(row=0, column=10)
         global time_slice_entry
         time_slice_entry = Entry(frame, width=5)
         time_slice_entry.grid(row=1, column=10)
+    else:
+        time_slice_flag = False
 
-    # Schedule Button
+        # Schedule Button
     Schedule = Button(frame, command=scheduler, height=5,
                       text="Shecdule").grid(row=2, column=10, rowspan=4, padx=10, pady=10)
 
@@ -157,6 +160,7 @@ def scheduler():
     # Removing the Previous Plot
     for widget in plot.winfo_children():
         widget.destroy()
+
     global processes
     for process in processes:
         process["burst_time_val"] = int(process["burst_time"].get())
