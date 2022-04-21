@@ -219,11 +219,12 @@ def scheduler():
     for process in gnatt:
         ax.broken_barh([(process["start"], [process["end"] - process["start"]])], (0.5, 10),
                        label=f"P{process['processs_no'],}", color=colors[process["processs_no"] - 1])
-        ax.text(x=((process["end"] + process["start"]) / 2) -
-                0.3, y=4.75, s=f"P{process['processs_no']}")
+        ax.text(x=((process["end"] + process["start"]) / 2.1),
+                y=4.75, s=f"P{process['processs_no']}")
         ax.set_ylim(0, 20)
         ax.set_yticks([])
-        # ax.set_xlim(-2, gnatt[-1]["end"] + 2)
+        ax.set_xlim(- (gnatt[-1]["end"] / 15), gnatt[-1]
+                    ["end"] + (gnatt[-1]["end"] / 15))
         ax.text(x=gnatt[-1]["end"] / 4, y=15,
                 s=f"average waiting time = {round(avg_wait, 2)}ms")
 
