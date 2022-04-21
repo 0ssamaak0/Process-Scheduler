@@ -23,3 +23,6 @@ The user is allowed -Through a GUI- to choose:
 
 ![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot2.png)
   
+
+# Known Issues
+- using any scheduler (except round robin) after round robin crashes the program
