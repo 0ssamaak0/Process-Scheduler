@@ -180,14 +180,13 @@ def scheduler():
                 plot_frame, text="Times cannot be negative! enter valid values", fg="red").grid()
             return
 
-    if(time_slice <= 0):
-        Label(plot_frame, text="Time slice cannot be negative or equal zero! enter valid values",
-              fg="red").grid()
-        return
-
     if time_slice_flag:
         time_slice = float(time_slice_entry.get())
-        print(time_slice)
+
+        if(time_slice <= 0):
+            Label(plot_frame, text="Time slice cannot be negative or equal zero! enter valid values",
+                  fg="red").grid()
+            return
 
     # if the first arrival time > 0, start from this time
     time_normalizer(processes)
@@ -224,7 +223,7 @@ def scheduler():
                 0.3, y=4.75, s=f"P{process['processs_no']}")
         ax.set_ylim(0, 20)
         ax.set_yticks([])
-        ax.set_xlim(-2, gnatt[-1]["end"] + 2)
+        # ax.set_xlim(-2, gnatt[-1]["end"] + 2)
         ax.text(x=gnatt[-1]["end"] / 4, y=15,
                 s=f"average waiting time = {round(avg_wait, 2)}ms")
 
