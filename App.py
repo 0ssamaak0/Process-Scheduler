@@ -59,7 +59,7 @@ processes = []
 time_slice_flag = False
 
 # Random value canot be chosen by the user
-time_slice = 932031.412345124
+time_slice = -1
 
 # Number of Processes
 nprocess_label = Label(window, text="Number of Processes")
@@ -141,7 +141,7 @@ def processes_filling():
             processes[i]["priority"].grid(row=i, column=9)
         else:
             # random value can't be set by the user
-            processes[i]["priority"] = 932031.412345124
+            processes[i]["priority"] = -1
 
     # If RoundRobin set time_slice
     global time_slice_flag
@@ -171,11 +171,14 @@ def scheduler():
     for process in processes:
         process["burst_time_val"] = float(process["burst_time"].get())
         process["arrival_time_val"] = float(process["arrival_time"].get())
-        if(process["priority"] != 932031.412345124):
+        if(process["priority"] != -1):
             process["priority_val"] = float(process["priority"].get())
+        else:
+            # Random value that the user can't enter
+            process["priority_val"] = 9423142134.53154300004
 
     for process in processes:
-        if (process["burst_time_val"] < 0 or process["arrival_time_val"] < 0 or process["priority"] < 0):
+        if (process["burst_time_val"] < 0 or process["arrival_time_val"] < 0 or process["priority_val"] < 0):
             Label(
                 plot_frame, text="Times cannot be negative! enter valid values", fg="red").grid()
             return
