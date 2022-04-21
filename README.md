@@ -25,5 +25,5 @@ The user is allowed -Through a GUI- to choose:
   
 
 # Known Issues
-- ~~using any scheduler (except round robin) after round robin crashes the program~~ (Fixed ✅)
-- float burst times or arrival times in preemtive schedulers and round robin
+- ~~using any scheduler (except round robin) after round robin crashes the program.~~ (Fixed ✅)
+- ~~float burst times or arrival times in preemtive schedulers and round robin make an infinite loop.~~(Fixed ✅)

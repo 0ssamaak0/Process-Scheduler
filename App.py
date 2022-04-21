@@ -48,16 +48,18 @@ window.config(menu=menubar)
 frame = Frame(window)
 frame.grid(column=2, rowspan=10, columnspan=10)
 
-# Plot Frame
-plot = Frame(window)
-plot.grid(row=30, columnspan=10)
+# plot_frame Frame
+plot_frame = Frame(window)
+plot_frame.grid(row=30, columnspan=10)
 
 # Processes empty list (will be list of dictionaries)
 processes = []
 
 # Round Robin Time slice
 time_slice_flag = False
-time_slice = 0
+
+# Random value canot be chosen by the user
+time_slice = 932031.412345124
 
 # Number of Processes
 nprocess_label = Label(window, text="Number of Processes")
@@ -138,7 +140,8 @@ def processes_filling():
                 frame, width=5)
             processes[i]["priority"].grid(row=i, column=9)
         else:
-            processes[i]["priority"] = -1
+            # random value can't be set by the user
+            processes[i]["priority"] = 932031.412345124
 
     # If RoundRobin set time_slice
     global time_slice_flag
@@ -157,21 +160,33 @@ def processes_filling():
 
 
 def scheduler():
-    # Removing the Previous Plot
-    for widget in plot.winfo_children():
+    # Removing the Previous plot_frame
+    for widget in plot_frame.winfo_children():
         widget.destroy()
 
+    # Global Variables
     global processes
-    for process in processes:
-        process["burst_time_val"] = int(process["burst_time"].get())
-        process["arrival_time_val"] = int(process["arrival_time"].get())
-        if(process["priority"] != -1):
-            process["priority_val"] = int(process["priority"].get())
-
     global time_slice
 
+    for process in processes:
+        process["burst_time_val"] = float(process["burst_time"].get())
+        process["arrival_time_val"] = float(process["arrival_time"].get())
+        if(process["priority"] != 932031.412345124):
+            process["priority_val"] = float(process["priority"].get())
+
+    for process in processes:
+        if (process["burst_time_val"] < 0 or process["arrival_time_val"] < 0 or process["priority"] < 0):
+            Label(
+                plot_frame, text="Times cannot be negative! enter valid values", fg="red").grid()
+            return
+
+    if(time_slice <= 0):
+        Label(plot_frame, text="Time slice cannot be negative or equal zero! enter valid values",
+              fg="red").grid()
+        return
+
     if time_slice_flag:
-        time_slice = int(time_slice_entry.get())
+        time_slice = float(time_slice_entry.get())
         print(time_slice)
 
     # if the first arrival time > 0, start from this time
@@ -194,12 +209,11 @@ def scheduler():
               for process in range(len(gnatt))]
 
     # Preparing the figure and the ax
-    global figure
-    figure = plt.Figure(figsize=(6, 5), dpi=100)
+    figure = plt.Figure(figsize=(10, 5), dpi=100)
     ax = figure.add_subplot(111)
 
-    # Adding the plot
-    canvas = FigureCanvasTkAgg(figure, plot)
+    # Adding the plot_frame
+    canvas = FigureCanvasTkAgg(figure, plot_frame)
     canvas.get_tk_widget().grid(columnspan=10)
 
     # Plotting the Gnatt Chart

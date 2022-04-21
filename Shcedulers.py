@@ -97,21 +97,22 @@ def SJFP(processes):
     time = 0
 
     while(True):
-        results = sorted(results, key=lambda i: i["burst_time_val"])
+        results = sorted(results, key=lambda prc: prc["burst_time_val"])
         loop += 1
         if (results[i]["arrival_time_val"] <= time and results[i]["burst_time_val"] != 0):
             if(len(gnatt) > 0):
                 if(gnatt[-1]["processs_no"] == results[i]["processs_no"]):
-                    gnatt[-1]["end"] = time + 1
+                    gnatt[-1]["end"] = round(time + 0.001, 3)
                 else:
                     gnatt.append(
-                        {"processs_no": results[i]["processs_no"], "start": time, "end": time + 1})
+                        {"processs_no": results[i]["processs_no"], "start": time, "end": round(time + 0.001, 3)})
             else:
                 gnatt.append(
-                    {"processs_no": results[i]["processs_no"], "start": time, "end": time + 1})
+                    {"processs_no": results[i]["processs_no"], "start": time, "end": round(time + 0.001, 3)})
 
-            time += 1
-            results[i]["burst_time_val"] -= 1
+            time = round(time + 0.001, 3)
+            results[i]["burst_time_val"] = round(
+                results[i]["burst_time_val"] - 0.001, 3)
 
             loop = 0
             i = 0
@@ -183,16 +184,17 @@ def priorityP(processes):
         if (results[i]["arrival_time_val"] <= time and results[i]["burst_time_val"] != 0):
             if(len(gnatt) > 0):
                 if(gnatt[-1]["processs_no"] == results[i]["processs_no"]):
-                    gnatt[-1]["end"] = time + 1
+                    gnatt[-1]["end"] = round(time + 0.001, 3)
                 else:
                     gnatt.append(
-                        {"processs_no": results[i]["processs_no"], "start": time, "end": time + 1})
+                        {"processs_no": results[i]["processs_no"], "start": time, "end": round(time + 0.001, 3)})
             else:
                 gnatt.append(
-                    {"processs_no": results[i]["processs_no"], "start": time, "end": time + 1})
+                    {"processs_no": results[i]["processs_no"], "start": time, "end": round(time + 0.001, 3)})
 
-            time += 1
-            results[i]["burst_time_val"] -= 1
+            time = round(time + 0.001, 3)
+            results[i]["burst_time_val"] = round(
+                results[i]["burst_time_val"] - 0.001, 3)
 
             loop = 0
             i = 0
@@ -232,8 +234,9 @@ def RoundRobin(processes, time_slice):
             else:
                 gnatt.append(
                     {"processs_no": results[i]["processs_no"], "start": time, "end": time + time_slice})
-                time += time_slice
-                results[i]["burst_time_val"] -= time_slice
+                time = round(time + time_slice, 3)
+                results[i]["burst_time_val"] = round(
+                    results[i]["burst_time_val"] - time_slice, 3)
             loop = 0
 
         i = (i + 1) % len(processes)
