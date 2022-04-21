@@ -22,6 +22,8 @@ The user is allowed -Through a GUI- to choose:
 ![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot1.png)
 
 ![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot2.png)
+
+![Screenshoot1](https://github.com/0ssamaak0/Process-Scheduler/blob/master/ScreenShot3.png)
   
 
 # Known Issues
